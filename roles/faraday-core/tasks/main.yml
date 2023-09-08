@@ -11,3 +11,11 @@
     repo: "https://github.com/infobyte/faraday"
     dest: "{{ faraday_repo_base_dir }}/"
     clone: true
+
+- template:
+    src: "docker-compose.yml.jinja2"
+    dest: "{{ faraday_repo_base_dir }}/docker-compose.yml"
+
+- docker_compose:
+    project_src: "{{ faraday_repo_base_dir }}/"
+    state: present
