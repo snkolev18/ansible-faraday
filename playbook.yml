@@ -1,4 +1,5 @@
-hosts: all
-become: true
-roles:
-  - faraday
+- hosts: all
+  become: true
+  roles:
+    - docker
+    - faraday-core

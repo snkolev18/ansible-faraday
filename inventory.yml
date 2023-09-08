@@ -1,0 +1,7 @@
+all:
+  children:
+    faraday: 
+      hosts:
+        faraday-machine:
+          ansible_user: "vagrant"
+          ansible_password: "vagrant"

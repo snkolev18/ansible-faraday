@@ -1,0 +1,5 @@
+---
+# defaults file for docker
+docker_keyring_dir: /etc/apt/keyrings
+docker_keyring_file: "{{ docker_keyring_dir }}/docker.gpg"
+docker_repository_url: https://download.docker.com/linux/ubuntu

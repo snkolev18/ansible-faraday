@@ -1,5 +1,11 @@
 ---
 # tasks file for faraday
+- package:
+    name:
+      - python3-pip
+      - python3-docker
+      - docker-compose
+
 - name: "Clone faraday repository"
   git:
     repo: "https://github.com/infobyte/faraday"

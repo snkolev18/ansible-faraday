@@ -1,0 +1,62 @@
+# https://docs.docker.com/engine/install/ubuntu/
+- name: Uninstall old versions
+  apt:
+    name:
+      - docker.io
+      - docker-compose
+      - docker-doc
+      - podman-docker
+      - containerd
+      - runc
+    state: absent
+- name: Install using the apt repository | Set up the repository | 1. Update the apt package index and install packages to allow apt to use a repository over HTTPS
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    update_cache: true
+- file:
+    path: "{{ docker_keyring_dir }}"
+    mode: 0755
+    state: directory
+- name: Install using the apt repository | Set up the repository | 2. Add Docker’s official GPG key
+  apt_key:
+    url: "{{ docker_repository_url }}/gpg"
+    keyring: "{{ docker_keyring_file }}"
+- command: dpkg --print-architecture
+  register: dpkg_architecture_result
+  changed_when: false
+- name: Install using the apt repository | Set up the repository | 3. Use the following command to set up the repository
+  apt_repository:
+    repo: "deb [arch={{ dpkg_architecture_result.stdout }} signed-by={{ docker_keyring_file }}] {{ docker_repository_url }} {{ ansible_distribution_release }} stable"
+    filename: docker
+- name: Install using the apt repository | Install Docker Engine
+  block:
+    - name: Update the apt package index and install Docker Engine, containerd, and Docker Compose
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        update_cache: true
+- service:
+    name: apparmor
+    state: stopped
+    enabled: false
+  ignore_errors: true
+  notify: restart docker
+- apt:
+    name: apparmor
+    state: absent
+  notify: restart docker
+- service:
+    name: docker
+    state: started
+    enabled: true
+- template:
+    src: docker-system-prune.jinja2
+    dest: /etc/cron.daily/docker-system-prune
+    mode: 755

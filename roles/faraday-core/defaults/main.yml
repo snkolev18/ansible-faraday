@@ -1,0 +1,3 @@
+---
+# defaults file for faraday
+faraday_repo_base_dir: "/opt/faraday"
