@@ -11,11 +11,63 @@
     repo: "https://github.com/infobyte/faraday"
     dest: "{{ faraday_repo_base_dir }}/"
     clone: true
+    force: true
 
 - template:
     src: "docker-compose.yml.jinja2"
-    dest: "{{ faraday_repo_base_dir }}/docker-compose.yml"
+    dest: "{{ faraday_repo_base_dir }}/docker-compose.yaml"
+
+- package: 
+    name: 
+      - redis
+      - nginx
+
+- template:
+    src: "server.ini.jinja2"
+    dest: "{{ faraday_repo_base_dir }}/docker/server.ini"
 
 - docker_compose:
-    project_src: "{{ faraday_repo_base_dir }}/"
-    state: present
+    project_src: "{{ faraday_repo_base_dir }}"
+    state: "present"
+
+- template:
+    src: "nginx.conf.jinja2"
+    dest: "/etc/nginx/sites-available/faraday.local"
+
+- name: "Generate rsa private key"
+  community.crypto.openssl_privatekey:
+    path: "/etc/ssl/faraday.local.key"
+    type: "RSA"
+    size: 4096
+    state: "present"
+    select_crypto_backend: "cryptography"
+
+- name: "Create CSR pipe"
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "/etc/ssl/faraday.local.key"
+    common_name: "faraday.local"
+    organization_name: "Test"
+    country_name: "BG"
+  register: "faraday_csr"
+
+- name: "Generate a self-signed .x509 certificate"
+  community.crypto.x509_certificate:
+    provider: "selfsigned"
+    path: "/etc/ssl/faraday.local.crt"
+    privatekey_path: "/etc/ssl/faraday.local.key"
+    csr_content: "{{ faraday_csr.csr }}"
+    state: "present"
+    select_crypto_backend: "cryptography"
+
+- name: "Symlink between sites-available and sites-enabled"
+  file:
+    src: "/etc/nginx/sites-available/faraday.local"
+    dest: "/etc/nginx/sites-enabled/faraday.local"
+    state: "link"
+  notify:
+    - daemon-reload
+    - nginx-restart
+
+- docker_compose:
+    project_src: "{{ faraday_repo_base_dir }}"
+    restarted: true

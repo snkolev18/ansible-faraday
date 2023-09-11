@@ -1,2 +1,10 @@
 ---
 # handlers file for faraday
+- name: "daemon-reload"
+  systemd:
+    daemon_reload: true
+
+- name: "nginx-restart"
+  service:
+    name: "nginx"
+    state: "restarted"

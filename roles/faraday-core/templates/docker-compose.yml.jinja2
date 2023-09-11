@@ -28,7 +28,10 @@ services:
       - PGSQL_PASSWD=superSlojnaParola
       - PGSQL_HOST=db
       - PGSQL_DBNAME=faraday
-      - REDIS_SERVER=redis
+      - REDIS_SERVER={{ faraday_redis_storage_address }}
+      - WEBSOCKET_SERVER_FQDN=https://faraday.local
+      - WEBSOCKET_SERVER_PORT=5000
+      - NOTIFICATIONS_ENABLED=true
     depends_on:
      - db
      - redis

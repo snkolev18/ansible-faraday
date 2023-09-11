@@ -1,3 +1,4 @@
 ---
 # defaults file for faraday
 faraday_repo_base_dir: "/opt/faraday"
+faraday_redis_storage_address: "127.0.0.1"
