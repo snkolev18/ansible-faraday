@@ -29,9 +29,9 @@ services:
       - PGSQL_HOST=db
       - PGSQL_DBNAME=faraday
       - REDIS_SERVER={{ faraday_redis_storage_address }}
-      - WEBSOCKET_SERVER_FQDN=https://faraday.local
-      - WEBSOCKET_SERVER_PORT=5000
-      - NOTIFICATIONS_ENABLED=true
+      - WEBSOCKET_SERVER_FQDN={{ faraday_websocket_server_fqdn }}
+      - WEBSOCKET_SERVER_PORT={{ faraday_websocket_server_port }}
+      - NOTIFICATIONS_ENABLED={{ notifications_enabled }}
     depends_on:
      - db
      - redis

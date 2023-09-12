@@ -2,3 +2,6 @@
 # defaults file for faraday
 faraday_repo_base_dir: "/opt/faraday"
 faraday_redis_storage_address: "127.0.0.1"
+faraday_websocket_server_fqdn: "https://faraday.local"
+faraday_websocket_server_port: 5000
+notifications_enabled: true

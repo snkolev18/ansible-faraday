@@ -26,7 +26,8 @@
     src: "server.ini.jinja2"
     dest: "{{ faraday_repo_base_dir }}/docker/server.ini"
 
-- copy:
+- name: "Patch the user creation limitation (Comment out an if statement)"
+  copy:
     src: "manage.py"
     dest: "{{ faraday_repo_base_dir }}/faraday/manage.py"
     mode: "a+x"
@@ -70,7 +71,6 @@
     dest: "/etc/nginx/sites-enabled/faraday.local"
     state: "link"
   notify:
-    - daemon-reload
     - nginx-restart
 
 - docker_compose:
