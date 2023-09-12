@@ -1,2 +1,24 @@
 ---
 # tasks file for faraday-cli
+
+- name: "Update apt cache and install python3-pip"
+  apt: 
+    name:
+      - python3-pip
+    update_cache: true
+
+- name: "Clone faraday-cli repository"
+  git:
+    repo: "https://github.com/infobyte/faraday-cli.git"
+    dest: "{{ faraday_cli_repo_base_dir }}"
+    clone: true
+
+- name: "Install faraday-cli from source"
+  pip:
+    requirements: "{{ faraday_cli_repo_base_dir }}/requirements.txt"
+    state: "present"
+
+- name: "Provide cli configuration file"
+  template:
+    src: "pre-config.yml.jinja2"
+    dest: "{{ env_variable_settings_config_filepath }}"

@@ -5,3 +5,6 @@ all:
         server:
           ansible_user: "vagrant"
           ansible_password: "vagrant"
+        cli:
+          ansible_user: "vagrant"
+          ansible_password: "vagrant"

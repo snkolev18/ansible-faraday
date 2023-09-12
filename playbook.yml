@@ -1,5 +1,6 @@
 - hosts: all
   become: true
   roles:
-   # - docker
-    - faraday-core
+  #  - docker
+  #  - faraday-core
+    - faraday-cli

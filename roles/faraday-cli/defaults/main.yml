@@ -1,2 +1,14 @@
 ---
 # defaults file for faraday-cli
+faraday_cli_repo_base_dir: "/opt/faraday-cli"
+
+config_faraday_url: "https://faraday.local"
+config_token: "some-token"
+config_ignore_ssl: false
+config_workspace: "testoslav"
+config_custom_plugins_path: "path-to-plugins"
+config_ignore_info_severity: false
+config_auto_command_detection: false
+
+# todo fix
+env_variable_settings_config_filepath: "/home/vagrant/.pre_config.yml"
