@@ -26,6 +26,11 @@
     src: "server.ini.jinja2"
     dest: "{{ faraday_repo_base_dir }}/docker/server.ini"
 
+- copy:
+    src: "manage.py"
+    dest: "{{ faraday_repo_base_dir }}/faraday/manage.py"
+    mode: "a+x"
+
 - docker_compose:
     project_src: "{{ faraday_repo_base_dir }}"
     state: "present"
