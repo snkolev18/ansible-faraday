@@ -4,3 +4,4 @@
   #  - docker
   #  - faraday-core
     - faraday-cli
+  #  - faraday-agent

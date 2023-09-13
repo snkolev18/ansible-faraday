@@ -1,0 +1,3 @@
+---
+# defaults file for faraday-agent
+faraday_agent_dispatcher_repo_base_dir: "/opt/faraday-agent-dispatcher"

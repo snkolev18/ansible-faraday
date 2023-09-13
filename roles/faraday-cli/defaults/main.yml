@@ -11,4 +11,5 @@ config_ignore_info_severity: false
 config_auto_command_detection: false
 
 # todo fix
-env_variable_settings_config_filepath: "/home/vagrant/.pre_config.yml"
+# export FARADAY_CLI_CONFIG=~/.faraday-cli.yml
+env_variable_settings_config_filepath: "/home/vagrant/.faraday-cli.yml"

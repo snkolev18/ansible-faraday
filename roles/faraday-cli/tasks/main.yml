@@ -22,3 +22,16 @@
   template:
     src: "pre-config.yml.jinja2"
     dest: "{{ env_variable_settings_config_filepath }}"
+
+# The target .bashrc should be for the dedicated faraday user (imagine there is such)
+# Degrading your priviliges is a temp solution?
+- name: "Modify .bashrc to perma export CLI configuration variable pointing to the conf path"
+  blockinfile:
+    # export FARADAY_CLI_CONFIG=~/.faraday-cli.yml
+    path: "~/.bashrc"
+    insertafter: "EOF"
+    block: |
+      export FARADAY_CLI_CONFIG=~/.faraday-cli.yml
+    state: "present"
+  become: false
+
